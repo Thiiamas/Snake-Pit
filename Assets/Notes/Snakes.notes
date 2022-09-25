@@ -1,0 +1,37 @@
+
+Current test :
+
+    -Vision with apple angle and direction in observations : Try different resolution to see how it impact the compute speed and efficacity
+    Reward simple +1/-1
+        20 * 20 : 1 500 000 steps = 5800. MR = 7.4
+        30 * 30 : 1 500 000 steps = 5347s MR = 7.7/8
+        40 * 40 : 1 500 000 steps = 5100s Mr = 7.8
+
+    Reward custom +1/-5
+        40 * 40 : 1 500 000 steps = 4200ms s Mr = 1.6
+    With build (mlagents-learn config/classicVisionBuild.yml --force --env="Build/Snake Pit" --num-envs=2 --no-graphics)
+    mlagents-learn config/classicRay.yml --force --env="Build/ClassicRay" --num-envs=3 --no-graphics
+    mlagents-learn config/classic.yml --force --env="Build/Classic" --num-envs=3 --no-graphics
+
+Experience with config files:
+V1:
+    Config1: SAC, recommanded parameters mlagents-learn config/classicConfig1.yml --run-id=Config1Test --env="Build/Classic" --num-envs=3 --no-graphics
+    Config11: (mlagents-learn config/classicConfig11.yml --run-id=Config11Test --env="Build/Classic" --num-envs=3 --no-graphics)
+              1 hidden layer debut fulgurant comme la Config1 (MR = 17 à 1000s/110 000 steps)
+    Config11 avec Observation of snake's forward vector : Same, Speed = Environ 500 000steps en 6000s
+    Config12 : 3 hidden layer 
+    Config2: SAC, reduce learning rate : 1e-5, 1 hidden layer (reduced), increase tau 0.007 = très long 200 000 steps = 3000s MR=7 .... pas ouf
+     Config2.1 2 hidden layer pas ouf, lent
+
+    Je me suis rendu compte que les Ray pouvaient detecter les autres instances donc je recommence avec une version modifié, ou les Environnements sont sur des étages differents
+    Config
+    Donc 2 Ray Sensors (Wall, Body + apple), avec une range plutot grande, 1 Camera sensor (default parameters + grayscale)
+V2: Config12 : 3 Layers 
+    Config12Final : Je m'était trompé de build
+    mlagents-learn config/classicConfig12.yml --run-id=Config12TestFinal --env="Build/classic" --num-env=3 --no-graphics --resume
+
+    PPO:
+    Config31 : 3 layers 
+        mlagents-learn config/classicConfig12.yml --run-id=Config12TestFinal --env="Build/classic1.1" --num-env=3 --no-graphics --resume
+        MEilleur resultats so far, MR = 40
+    
